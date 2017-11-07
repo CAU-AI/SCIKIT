@@ -19,4 +19,5 @@ test_pred = train_model.predict(test_data)
 
 correct_count = (test_pred == test_answer).sum()
 accuracy = correct_count / len(test_answer)
+print("test");
 print("Accuracy = " + str(accuracy))
