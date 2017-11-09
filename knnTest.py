@@ -6,11 +6,11 @@ from sklearn.decomposition import PCA
 import pandas as pd
 from sklearn.decomposition import PCA
 
-#xl = pd.ExcelFile("zoo.xlsx")
-#xl = pd.ExcelFile("3D_handwriting_train.xlsx")
-#xl = pd.ExcelFile("cardiotocogram_train.xlsx")
+xl = pd.ExcelFile("Breastcancer_train.xlsx")
 #xl = pd.ExcelFile("Music_style_train.xlsx")
-xl = pd.ExcelFile("Carnicom.xlsx")
+#xl = pd.ExcelFile("3D_handwriting_train.xlsx")
+#xl = pd.ExcelFile("zoo.xlsx")
+#xl = pd.ExcelFile("Carnicom.xlsx")
 
 data_excel = pd.read_excel(io=xl, sheetname=0, header=None)
 answer_excel = pd.read_excel(io=xl, sheetname=1, header=None)
@@ -20,11 +20,10 @@ answer = np.array(answer_excel.values).flatten().transpose()
 train_data, test_data, train_answer, test_answer = train_test_split(data, answer, test_size=0.2)
 
 #Standardzation before training
-'''
-scaler = preprocessing.StandardScaler().fit(train_data.astype(float))
+scaler = preprocessing.Imputer(missing_values='NaN').fit(train_data.astype(float))
 train_data = scaler.transform(train_data.astype(float))
 test_data = scaler.transform(test_data.astype(float))
-'''
+
 
 nbrs = KNeighborsClassifier(n_neighbors=5)
 train_model = nbrs.fit(train_data, train_answer)
@@ -44,7 +43,7 @@ test_data_proc = scaler.transform(test_data.astype(float))
 
 #PCA
 
-feature_size = 20;
+feature_size = 9
 pca = PCA(n_components=feature_size)
 pca.fit(train_data)
 
@@ -52,7 +51,6 @@ train_data_proc = pca.transform(train_data)
 test_data_proc = pca.transform(test_data)
 
 #PCC
-'''
 import numpy as np
 feature_size = 500;
 corr_array = []
@@ -62,7 +60,6 @@ corr_array = np.square(corr_array)
 pcc_feature_idx = np.flip(np.argsort(corr_array), 0)
 train_data_proc = train_data[:, pcc_feature_idx[0:feature_size]]
 test_data_proc = test_data[:,pcc_feature_idx[0:feature_size]]
-'''
 
 #Comp Classifier
 
