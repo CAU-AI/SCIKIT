@@ -50,6 +50,7 @@ pca.fit(train_data)
 train_data_proc = pca.transform(train_data)
 test_data_proc = pca.transform(test_data)
 
+
 #PCC
 import numpy as np
 feature_size = 500;
