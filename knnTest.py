@@ -6,7 +6,7 @@ from sklearn.decomposition import PCA
 import pandas as pd
 from sklearn.decomposition import PCA
 
-xl = pd.ExcelFile("zoo.xlsx")
+xl = pd.ExcelFile("Breastcancer_train.xlsx")
 #xl = pd.ExcelFile("Carnicom.xlsx")
 data_excel = pd.read_excel(io=xl, sheetname=0, header=None)
 answer_excel = pd.read_excel(io=xl, sheetname=1, header=None)
@@ -15,12 +15,12 @@ answer = np.array(answer_excel.values).flatten().transpose()
 
 train_data, test_data, train_answer, test_answer = train_test_split(data, answer, test_size=0.2)
 
-#Standardzation before training
-'''
-scaler = preprocessing.StandardScaler().fit(train_data.astype(float))
+#Standardzation before training (20~22)
+
+scaler = preprocessing.StandardScaler().fit(train_data.astype(float))  #astype(float) = 요소들 float형태로 바꾸기
 train_data = scaler.transform(train_data.astype(float))
 test_data = scaler.transform(test_data.astype(float))
-'''
+
 
 nbrs = KNeighborsClassifier(n_neighbors=5)
 train_model = nbrs.fit(train_data, train_answer)
@@ -40,7 +40,7 @@ test_data_proc = scaler.transform(test_data.astype(float))
 
 #PCA
 '''
-feature_size = 400;
+feature_size = 400;      #차원수
 pca = PCA(n_components=feature_size)
 pca.fit(train_data)
 
@@ -67,6 +67,8 @@ nbrs = KNeighborsClassifier(n_neighbors=5)
 train_model = nbrs.fit(train_data_proc, train_answer)
 test_pred = train_model.predict(test_data_proc)
 
+print(test_pred)
+print(test_answer)
 correct_count = (test_pred == test_answer).sum()
 accuracy = correct_count / len(test_answer)
 print("Accuracy proc= " + str(accuracy))

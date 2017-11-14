@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 xl = pd.ExcelFile("Breastcancer_train.xlsx")
-#xl = pd.ExcelFile("3D_handwriting_train.xlsx")    data_sheet 3개 : 아직 미구현
+#xl = pd.ExcelFile("3D_handwriting_train.xlsx")
 #xl = pd.ExcelFile("Music_style_train.xlsx")    NAN data로 인해 오류
 
 data_excel = pd.read_excel(io=xl, sheetname=0, header=None)
