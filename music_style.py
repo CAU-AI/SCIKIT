@@ -1,10 +1,7 @@
 from sklearn.model_selection import train_test_split
 import numpy as np
-from sklearn import preprocessing
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.decomposition import PCA
 import pandas as pd
-from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
 
 xl = pd.ExcelFile("Music_style_train.xlsx")
 data_excel = pd.read_excel(io=xl, sheetname=0, header=None)
@@ -76,8 +73,12 @@ def predict(num):
     print("K:" + str(num) + " Accuracy = " + str(accuracy))
     accuracy_list.append(accuracy)
 
-for i in range(1,43):                   # 이웃 수 변화
+range_num = 10
+for i in range(1,range_num):                   # 이웃 수 변화
     predict(i)
 print("Max_Accuracy = " + str(max(accuracy_list)))
 
-# distance를 통한 label, distance, test_answer  사이 점찍기
+x=range(1,range_num )
+plt.plot(x, accuracy_list, 'ro')
+plt.show()
+
