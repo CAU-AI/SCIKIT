@@ -63,7 +63,7 @@ new_data3 = np.dot(data,third_eigenvector)
 
 
 fig = plt.figure()
-ax = fig.add_subplot(111,projection='3d')
+ax = fig.add_subplot(111, projection='3d')
 
 
 for i in range(0, new_data1.size):

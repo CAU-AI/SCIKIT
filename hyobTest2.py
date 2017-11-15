@@ -7,6 +7,10 @@ from sklearn.neighbors import KNeighborsClassifier
 from mpl_toolkits.mplot3d import Axes3D
 from scipy.interpolate import BSpline
 
+from scipy.spatial.distance import euclidean
+
+from fastdtw import fastdtw
+
 
 def get_bspline_arr(arrs, len = 50):
     arrs_len = np.array(arrs).shape[0]
@@ -102,15 +106,23 @@ def dtw_distance(tx, ty, tz, x, y, z):
                                        dtw[i-1][j-1])    #match
     return dtw[len_t - 1][len_x - 1]
 
-def dtw_distance(tx, x):
+def dtw_distance(tx, ty, tz, x, y, z):
     arr_tx = [0]
+    arr_ty = [0]
+    arr_tz = [0]
     arr_x = [0]
+    arr_y = [0]
+    arr_z = [0]
     len_t = np.array(tx).shape[0]
     len_x = np.array(x).shape[0]
     for i in range(0, len_t):
         arr_tx.append(tx[i])
+        arr_ty.append(ty[i])
+        arr_tz.append(tz[i])
     for i in range(0, len_x):
         arr_x.append(x[i])
+        arr_y.append(y[i])
+        arr_z.append(z[i])
 
     len_t = np.array(arr_tx).shape[0]
     len_x = np.array(arr_x).shape[0]
@@ -127,7 +139,7 @@ def dtw_distance(tx, x):
 
     for i in range(1, len_t):
         for j in range(1, len_x):
-            cost = d(arr_tx[i], arr_x[j])
+            cost = d(arr_tx[i], arr_x[j]) + d(arr_ty[i], arr_y[j]) + d(arr_tz[i], arr_z[j])
             dtw[i][j] = cost + minimum(dtw[i-1][j],    #insertion
                                        dtw[i][j-1],    #deletion
                                        dtw[i-1][j-1])    #match
@@ -159,11 +171,16 @@ correct = 0
 for i in range(0, len_test):
     loc_min = 999999999
     loc_min_answer = [0]
-    for j in range(0, len_train - 1):
-        dist = dtw_distance(train_x[j], train_y[j], train_z[j], test_x[i], test_y[i], test_z[i])
+    for j in range(0, len_train):
+        dist_x, path_x = fastdtw(train_x[j], test_x[i], dist=euclidean)
+        dist_y, path_y = fastdtw(train_y[j], test_y[i], dist=euclidean)
+        dist_z, path_z = fastdtw(train_z[j], test_z[i], dist=euclidean)
+        dist = dist_x + dist_y + dist_z
+        #dist = dtw_distance(train_x[j], train_y[j], train_z[j], test_x[i], test_y[i], test_z[i])
         if dist < loc_min:
             loc_min = dist
             loc_min_answer = np.array(train_a[j])[0]
+        print("percentage : " + str(100 * j/len_train) + " ,\ttrain : " + loc_min_answer + " ,\ttest : " + np.array(test_a[i])[0])
     print("train : " + loc_min_answer + " , test : " + np.array(test_a[i])[0])
     if loc_min_answer == np.array(test_a[i])[0]:
         correct = correct + 1
