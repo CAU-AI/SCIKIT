@@ -25,26 +25,36 @@ new_data = np.zeros((210,376),dtype="i")
 #test_pred = np.array([],dtype="str")
 test_pred_list =[]
 
-for i in range(len(data)):
+#scaler = preprocessing.Imputer(missing_values='NaN').fit(test_data.astype(float))
+# train_data = scaler.transform(train_data.astype(float))
+#test_data = scaler.transform(test_data.astype(float))
+
+for i in range(len(train_data)):
     for j in range(len(data[0])):
-        if np.isnan(data[i,j]):                          #NaN인지 확인
+        if np.isnan(train_data[i,j]):                          #NaN인지 확인
             new_data[i, j] = 0
         else:
             new_data[i, j] = 1
 
-for i in range(0, int(len(data) * set_test_size)):      #test_data 크기
+
+#print(test_data[0])   376
+scaler = preprocessing.Imputer(missing_values='NaN', strategy='median', axis=1).fit(train_data.astype(float))
+test_data = scaler.transform(test_data.astype(float))
+#print(test_data[0])   376
+#print(test_data.shape) 42*376
+
+for i in range(0, len(test_data)):      #test_data 크기
     distance_range = []
     for j in range(len(train_data)):
-        I_value = 0    
-        a = 0
+        I_value = 0
+        a = 0.0
         for k in range(len(train_data[0])):
-            # test_data[i][k] , train_data[j][k]
             I_value += new_data[j][k]
-            if np.isnan(train_data[j][k]) or np.isnan(test_data[i][k]):
-                difference = 0
+            if np.isnan(train_data[j][k]):
+                difference = 0.0
             else:
                 difference = abs(train_data[j][k] - test_data[i][k])
-            b = difference * new_data[j][k]
+            b = difference
             a += b
         distance = len(data[0]) / I_value * a
         distance_range.append(distance)
@@ -55,7 +65,7 @@ for i in range(0, int(len(data) * set_test_size)):      #test_data 크기
     origin_distance_range = distance_range[:]
     distance_range.sort()                 # len(distance_range) = 168, len(train_data) = 168, len(test_data) = 42    test_size = 0.2
 
-    for p in range(0, compare_num):
+    for p in range(0, 4):
         index = origin_distance_range.index(distance_range[p])
         if train_answer[index] == '멜랑꼴리':
             label1 += 1
@@ -72,10 +82,11 @@ for i in range(0, int(len(data) * set_test_size)):      #test_data 크기
     test_pred_list.append(pred_value)
 test_pred = np.array(test_pred_list)
 
-print(test_pred)
-print(test_answer)
 
 correct_count = (test_pred == test_answer).sum()
 print(correct_count, len(test_answer))
 accuracy = correct_count / len(test_answer)
 print("Accuracy = " + str(accuracy))
+
+
+# distance를 통한 label, distance, test_answer  사이 점찍기
