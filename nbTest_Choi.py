@@ -16,7 +16,7 @@ range_list = np.arange(0.1, 1, 0.1)
 max_accuracy = 0
 max_test_size = 0
 
-print("PCA미적용 nb")
+print("PCA nb")
 for i in range_list:
     train_data, test_data, train_answer, test_answer = train_test_split(data, answer, test_size=i)
     gnb = GaussianNB()
@@ -27,10 +27,10 @@ for i in range_list:
     if max_accuracy < accuracy:
         max_accuracy = accuracy
         max_test_size = i
-    print("(test_size : " + str(i) + ") 일치하는 data 갯수 = " + str(correct_count) + " test_data 갯수 = " + str(len(test_data))+ "\t\tAccuracy = " + str(accuracy))
+    print("(test_size : " + str(i) + ") data= " + str(correct_count) + " test_data = " + str(len(test_data))+ "\t\tAccuracy = " + str(accuracy))
 
 
-print("\nPCA적용 nb")
+print("\nPCA nb")
 max_pca_accuracy = 0
 max_pca_test_size = 0
 
@@ -47,9 +47,9 @@ for i in range_list:
     if max_pca_accuracy < accuracy:
         max_pca_accuracy = accuracy
         max_pca_test_size = i
-    print("(test_size : " + str(i) + ") 일치하는 data 갯수 = " + str(correct_count) + " test_data 갯수 = " + str(
+    print("(test_size : " + str(i) + ")  data = " + str(correct_count) + " test_data = " + str(
         len(test_data)) + "\t\tAccuracy = " + str(accuracy))
 
-print("\nPCA미적용 : Max_accuracy's test_size = " + str(max_test_size) + "   MAX_accuracy = " + str(max_accuracy))
-print("PCA적용 : Max_accuracy's test_size = " + str(max_pca_test_size) + "   Max_accuracy = " + str(max_pca_accuracy))
+print("\nPCA : Max_accuracy's test_size = " + str(max_test_size) + "   MAX_accuracy = " + str(max_accuracy))
+print("PCA : Max_accuracy's test_size = " + str(max_pca_test_size) + "   Max_accuracy = " + str(max_pca_accuracy))
 

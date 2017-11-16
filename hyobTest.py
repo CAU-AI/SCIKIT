@@ -142,7 +142,21 @@ data_x = pd.read_excel(io=xl, sheet_name=0, header=None)
 data_y = pd.read_excel(io=xl, sheet_name=1, header=None)
 data_z = pd.read_excel(io=xl, sheet_name=2, header=None)
 data_a = pd.read_excel(io=xl, sheet_name=3, header=None)
+dataX = np.array(data_x.values)
+dataY = np.array(data_y.values)
+dataZ = np.array(data_z.values)
+answer = np.array(data_a.values).flatten().transpose()
 
+train_data, test_data, train_answer, test_answer = train_test_split(dataX, answer, test_size=0.2)
+
+''''''''
+lr = linear_model.LinearRegression()
+
+y = dataX
+
+# cross_val_predict returns an array of the same size as `y` where each entry
+# is a prediction obtained by cross validation:
+predicted = cross_val_predict(lr, boston.data, y, cv=10)
 
 X = get_value(data_x)
 Y = get_value(data_y)
