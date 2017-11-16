@@ -12,8 +12,8 @@ demo_xl = pd.ExcelFile("demo_test.xlsx")
 
 f = open('result1.txt', 'w+t')
 
-data_excel = pd.read_excel(io=xl, sheetname=0, header=None)
-answer_excel = pd.read_excel(io=xl, sheetname=1, header=None)
+data_excel = pd.read_excel(io=xl, sheet_name=0, header=None)
+answer_excel = pd.read_excel(io=xl, sheet_name=1, header=None)
 data = np.array(data_excel.values)
 answer = np.array(answer_excel.values).flatten().transpose()
 
@@ -40,6 +40,10 @@ pca = LDA(n_components=feature_size)
 
 train_data_proc = pca.fit_transform(train_data, train_answer)
 test_data_proc = pca.fit_transform(test_data, test_answer)
+
+
+print("train_data_proc : ")
+print( np.array(train_data_proc).shape)
 
 gnb = GaussianNB()
 train_model = gnb.fit(train_data_proc, train_answer)
