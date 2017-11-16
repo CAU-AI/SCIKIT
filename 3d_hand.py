@@ -258,8 +258,5 @@ for i in range(0, 1):
     if loc_min_answer == np.array(test_a[i])[0]:
         correct = correct + 1
 
-print("Acc : ")
-print(100 * correct/test_case)
-
 
 
