@@ -32,14 +32,22 @@ def do_nb_test(loopCount):
 
 
 def do_demo():
+    data_excel = pd.read_excel(io=xl, sheetname=0, header=None)
+    answer_excel = pd.read_excel(io=xl, sheetname=1, header=None)
+    demo_excel = pd.read_excel(io=demo_xl, sheetname=0, header=None)
+    answer_demo_excel = pd.read_excel(io=demo_xl, sheetname=1, header=None)
+    data = np.array(data_excel.values)
+    answer = np.array(answer_excel.values).flatten().transpose()
+
+    train_data = data
+    train_answer = answer
+
     demo_data = np.array(demo_excel.values)
     demo_answer = np.array(answer_demo_excel.values).flatten().transpose()
-    demo_pred = do_naive_bayes_predict(data, answer, demo_data, demo_answer, True)
-    for i in demo_pred:
-        f.write(str(demo_pred[i]) + '\n')
 
+    test_data = demo_data
+    test_answer = demo_answer
 
-def do_naive_bayes_predict(train_data, train_answer, test_data, test_answer, is_demo):
     # Standardzation before training
     scaler = preprocessing.Imputer(missing_values='NaN', strategy='median').fit(train_data.astype(float))
     train_data = scaler.transform(train_data.astype(float))
@@ -73,13 +81,11 @@ def do_naive_bayes_predict(train_data, train_answer, test_data, test_answer, is_
 
     global sum_acc
     if accuracy1 > accuracy2:
-        if not is_demo:
-            sum_acc += accuracy1
-        return test_pred1
+        demo_pred = test_pred1
     else:
-        if not is_demo:
-            sum_acc += accuracy2
-        return test_pred2
+        demo_pred = test_pred2
 
+    for i in demo_pred:
+        f.write(str(demo_pred[i]) + '\n')
 
 do_demo()
