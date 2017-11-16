@@ -20,10 +20,11 @@ answer = np.array(answer_excel.values).flatten().transpose()
 train_data, test_data, train_answer, test_answer = train_test_split(data, answer, test_size=0.2)
 
 #Standardzation before training
+'''
 scaler = preprocessing.Imputer(missing_values='NaN').fit(train_data.astype(float))
 train_data = scaler.transform(train_data.astype(float))
 test_data = scaler.transform(test_data.astype(float))
-
+'''
 
 nbrs = KNeighborsClassifier(n_neighbors=5)
 train_model = nbrs.fit(train_data, train_answer)

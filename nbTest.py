@@ -6,7 +6,7 @@ from sklearn.decomposition import PCA
 
 
 #xl = pd.ExcelFile("zoo.xlsx")
-xl = pd.ExcelFile("Carnicom.xlsx")
+xl = pd.ExcelFile("Breastcancer_train.xlsx")
 
 data_excel = pd.read_excel(io=xl, sheetname=0, header=None)
 answer_excel = pd.read_excel(io=xl, sheetname=1, header=None)
@@ -25,7 +25,7 @@ accuracy = correct_count / len(test_answer)
 print("Accuracy = " + str(accuracy))
 
 
-feature_size = 30;
+feature_size = 9;
 pca = PCA(n_components=feature_size)
 pca.fit(train_data)
 
