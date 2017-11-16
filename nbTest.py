@@ -10,7 +10,7 @@ xl = pd.ExcelFile("Breastcancer_train.xlsx")
 # xl = pd.ExcelFile("Music_style_train.xlsx")
 demo_xl = pd.ExcelFile("demo_test.xlsx")
 
-f = open('result.txt', 'w+t')
+f = open('result1.txt', 'w+t')
 
 data_excel = pd.read_excel(io=xl, sheetname=0, header=None)
 answer_excel = pd.read_excel(io=xl, sheetname=1, header=None)

@@ -9,6 +9,9 @@ from sklearn.neighbors import KNeighborsClassifier
 import matplotlib.pyplot as plt
 
 xl = pd.ExcelFile("Music_style_train.xlsx")
+demo_xl = pd.ExcelFile("demo_test2.xlsx")
+
+f = open('result2.txt', 'w+t')
 
 data_excel = pd.read_excel(io=xl, sheetname=0, header=None)
 answer_excel = pd.read_excel(io=xl, sheetname=1, header=None)
@@ -16,7 +19,7 @@ data = np.array(data_excel.values)
 answer = np.array(answer_excel.values).flatten().transpose()
 
 
-train_data, test_data, train_answer, test_answer = train_test_split(data, answer, test_size=0.3)
+train_data, test_data, train_answer, test_answer = train_test_split(data, answer, test_size=0.1)
 
 # Standardzation befoare training
 
@@ -26,21 +29,23 @@ test_data = scaler.transform(test_data.astype(float))
 
 accuracy_list=[]
 Max_accuracy = 0
-for i in range(100):
-    gnb = GaussianNB()
-    train_model = gnb.fit(train_data, train_answer)
-    test_pred = train_model.predict(test_data)
 
-    correct_count = (test_pred == test_answer).sum()
-    accuracy = correct_count / len(test_answer)
-    accuracy_list.append(accuracy)
-    if(Max_accuracy < accuracy):
-        Max_accuracy = accuracy
-    print("NB = " + str(accuracy))
-    gnb = None
+gnb = GaussianNB()
+train_model = gnb.fit(train_data, train_answer)
+test_pred = train_model.predict(test_data)
+
+correct_count = (test_pred == test_answer).sum()
+accuracy = correct_count / len(test_answer)
+accuracy_list.append(accuracy)
+if(Max_accuracy < accuracy):
+    Max_accuracy = accuracy
+print("NB = " + str(accuracy))
+
+for data in test_pred:
+    f.write(np.unicode(data) + '\n')
 
 
-print("Max = " + Max_accuracy)
+
 
 
 
