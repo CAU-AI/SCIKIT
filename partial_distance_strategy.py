@@ -1,10 +1,9 @@
 from sklearn.model_selection import train_test_split
 import numpy as np
 from sklearn import preprocessing
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.decomposition import PCA
 import pandas as pd
-from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+
 
 xl = pd.ExcelFile("Music_style_train.xlsx")
 data_excel = pd.read_excel(io=xl, sheetname=0, header=None)
@@ -88,5 +87,3 @@ print(correct_count, len(test_answer))
 accuracy = correct_count / len(test_answer)
 print("Accuracy = " + str(accuracy))
 
-
-# distance를 통한 label, distance, test_answer  사이 점찍기

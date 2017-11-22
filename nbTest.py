@@ -4,7 +4,7 @@ from sklearn.naive_bayes import GaussianNB
 import pandas as pd
 
 
-xl = pd.ExcelFile("zoo.xlsx")
+xl = pd.ExcelFile("Music_style_train.xlsx")
 data_excel = pd.read_excel(io=xl, sheetname=0, header=None)
 answer_excel = pd.read_excel(io=xl, sheetname=1, header=None)
 data = np.array(data_excel.values)

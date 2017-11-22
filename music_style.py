@@ -38,10 +38,11 @@ def predict(num):
                 if k in slice:
                     continue
                 else:
-                    difference = abs(train_data[j][k] - test_data[i][k])
+                    difference = (train_data[j][k] - test_data[i][k]) ** 2
                     b = difference
                     a += b
-            distance = len(data[0]) / I_value * a
+            #distance = len(data[0]) / I_value * a
+            distance = a ** 0.5
             distance_range.append(distance)
 
         label1 = 0

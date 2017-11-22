@@ -37,10 +37,10 @@ for i in range(100):
     if(Max_accuracy < accuracy):
         Max_accuracy = accuracy
     print("NB = " + str(accuracy))
-    gnb = None
 
 
-print("Max = " + Max_accuracy)
+
+print("Max = " + str(Max_accuracy))
 
 
 

@@ -18,33 +18,25 @@ eigenvalue = np.linalg.eigvals(cov_data)     #9
 a=eigenvalue.tolist()
 b=eigenvalue.tolist()
 
-
 a.sort(reverse=True)
 
 first_eigenvector_index = b.index(a[1])
 second_eigenvector_index = b.index(a[1])
 third_eigenvector_index = b.index(a[2])
-'''
-first_eigenvector_index = 0
-second_eigenvector_index = 1
-third_eigenvector_index =  2
-'''
+
 first_eigenvector = np.empty(1)
 second_eigenvector = np.array(1)
 third_eigenvector = np.empty(1)
-
 
 for i in range(0, len(cov_data)):
     first_eigenvector = np.c_[first_eigenvector, [cov_data[i][first_eigenvector_index]]]       #1*10
     second_eigenvector = np.c_[second_eigenvector, [cov_data[i][second_eigenvector_index]]]
     third_eigenvector = np.c_[third_eigenvector, [cov_data[i][third_eigenvector_index]]]
 
-
 # 42~48 : 첫번째 index 0을 지운후 다시 array로 설정 -> 빈 ndarray 생성이 안돼 추가했습니다.
 first_list = first_eigenvector.tolist()     #1*9
 second_list = second_eigenvector.tolist()
 third_list = third_eigenvector.tolist()
-
 
 del first_list[0][0]
 del second_list[0][0]
