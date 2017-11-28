@@ -17,8 +17,8 @@ data_excel = pd.read_excel(io=xl, sheetname=0, header=None)
 answer_excel = pd.read_excel(io=xl, sheetname=1, header=None)
 data = np.array(data_excel.values)
 answer = np.array(answer_excel.values).flatten().transpose()
-
-
+print("hihi")
+#test
 train_data, test_data, train_answer, test_answer = train_test_split(data, answer, test_size=0.2)
 
 '''
