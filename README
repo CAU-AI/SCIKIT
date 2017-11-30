@@ -1,1 +1,4 @@
-CAU AI SCIKIT PROJECT
+
+  - 해야할 부분
+  1. dis에 s/I를 곱해준다. 우선 현재 상황은 시그마(모든 feature 간의 거리)이다. (문제는 비교 당하는 패턴과 비교하는 패턴의 feature가 NaN일때 고려)
+  2. 각 test_Data의 dis최소 dis를 구하고 그 것에 해당하는 train_Data 의 label를 가져온다.(#k의 비율로 결정)
