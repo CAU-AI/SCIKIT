@@ -30,6 +30,18 @@ test_data = scaler.transform(test_data.astype(float))
 accuracy_list=[]
 Max_accuracy = 0
 
+
+    correct_count = (test_pred == test_answer).sum()
+    accuracy = correct_count / len(test_answer)
+    accuracy_list.append(accuracy)
+    if(Max_accuracy < accuracy):
+        Max_accuracy = accuracy
+    print("NB = " + str(accuracy))
+
+
+
+print("Max = " + str(Max_accuracy))
+
 gnb = GaussianNB()
 train_model = gnb.fit(train_data, train_answer)
 test_pred = train_model.predict(test_data)
