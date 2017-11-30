@@ -17,11 +17,10 @@ transpose_data = data.T
 check_data = []
 #new_data.append(transpose_data[4])
 
-a = [4, 7, 10, 21, 22, 27, 33, 37, 39, 45, 51, 52, 57, 61, 63, 67, 69, 73,72,  75, 79, 78, 93, 223,224, 225, 226, 227,228,229,230,231,232,233,234,235,263,264,265,266,267,302,303,304,305,306,307,308,309,310,311,312,313,327,338,
-370,374,344]
-a.sort()
+#a = [4, 7, 10, 21, 22, 27, 33, 37, 39, 45, 51, 52, 57, 61, 63, 67, 69, 73,72,  75, 79, 78, 93, 223,224, 225, 226, 227,228,229,230,231,232,233,234,235,263,264,265,266,267,302,303,304,305,306,307,308,309,310,311,312,313,327,338,344]
+#a.sort()
 
-#a= [7,21,27,33,45,51,52,72,73,79]   #최종본
+a= [7,21,27,33,45,51,52,72,73,79]   #최종본
 #a = [72,73,75,78,79,344,355,356]
 
 """
@@ -117,11 +116,11 @@ sub_test_data = scaler.transform(sub_test_data.astype(float))
 #Naive (0.76 0.78 0.83 0.85 0.88 0.90 0.92 1)
 gnb = GaussianNB()
 train_model = gnb.fit(train_data, train_answer)
-#test_pred = train_model.predict(test_data)
-
+test_pred = train_model.predict(test_data)
+before_pred = np.copy(test_pred)
 """
 #KNN (0.59 0.64 0.66 0.71 0.74 0.76)
-nbrs = KNeighborsClassifier(n_neighbors=7)
+nbrs = KNeighborsClassifier(n_neighbors=7, weights='distance')
 train_model = nbrs.fit(train_data, train_answer)
 test_pred = train_model.predict(test_data)
 before_pred = np.copy(test_pred)
