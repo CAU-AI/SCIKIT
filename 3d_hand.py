@@ -39,7 +39,7 @@ def get_arr_pca(al):
         ret.append(buf[1])
     return ret
 
-def get_bspline_arr(arrs, len = 40):
+def get_bspline_arr(arrs, len = 10):
     arrs_len = np.array(arrs).shape[0]
     t = []
     for i in range(0, arrs_len):
@@ -253,8 +253,7 @@ for i in range(0, 1):
         if dist < loc_min:
             loc_min = dist
             loc_min_answer = np.array(train_a[j])[0]
-    print(np.array(test_a[i])[0])
-    f.write(str(np.array(test_a[i])[0])+ '\n')
+    print("train : " + loc_min_answer + " , test : " + np.array(test_a[i])[0] + ", dist : " + str(loc_min))
     if loc_min_answer == np.array(test_a[i])[0]:
         correct = correct + 1
 
