@@ -6,21 +6,25 @@ from sklearn.decomposition import PCA
 from sklearn import preprocessing
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 
+
+
+f = open('result1.txt', 'w+t')
 xl = pd.ExcelFile("Breastcancer_train.xlsx")
 # xl = pd.ExcelFile("Music_style_train.xlsx")
 demo_xl = pd.ExcelFile("demo_test.xlsx")
+data_excel = pd.read_excel(io=xl, sheetname=0, header=None)
+answer_excel = pd.read_excel(io=xl, sheetname=1, header=None)
+data = np.array(data_excel.values)
+answer = np.array(answer_excel.values).flatten().transpose()
 
-f = open('result1.txt', 'w+t')
-
-data_excel = pd.read_excel(io=xl, sheet_name=0, header=None)
-answer_excel = pd.read_excel(io=xl, sheet_name=1, header=None)
 data = np.array(data_excel.values)
 answer = np.array(answer_excel.values).flatten().transpose()
 
 demo_excel = pd.read_excel(io=demo_xl, sheetname=0, header=None)
 answer_demo_excel = pd.read_excel(io=demo_xl, sheetname=1, header=None)
 
-train_data, test_data, train_answer, test_answer = train_test_split(data, answer, test_size=0.2)
+train_data, test_data, train_answer, test_answer = train_test_split(data, answer, test_size=0.01)
+
 
 # Standardzation before training
 scaler = preprocessing.Imputer(missing_values='NaN', strategy='median').fit(train_data.astype(float))
@@ -59,4 +63,4 @@ else:
     demo_pred = test_pred2
 
 for i in demo_pred:
-    f.write(str(demo_pred[i]) + '\n')
+    f.write(str(i) + '\n')

@@ -3,7 +3,7 @@ import pandas as pd
 
 from fastdtw import fastdtw
 from sklearn.model_selection import train_test_split
-
+import time
 import xlwt
 
 
@@ -34,6 +34,7 @@ def get_value(values):
     new_arr = np.array(new_arr)
     return new_arr
 
+start_time = time.time()
 
 print("start")
 #xl = pd.ExcelFile("3D_handwriting_train.xlsx")
@@ -70,18 +71,37 @@ testY = []
 testZ = []
 testA = []
 
+def make_half_arr(arr):
+    ret = []
+    length = int(np.array(arr).shape[0]/2)
+    for i in range(0, length):
+        ret.append(arr[i * 2])
+    return ret
+
+def make_double_half_arr(arr):
+    ret = []
+    length = int(np.array(arr).shape[0]/4)
+    for i in range(0, length):
+        ret.append(arr[i * 4])
+    return ret
+
 for i in range(0, 26):
     _trainX, _testX, _trainY, _testY, _trainZ, _testZ = train_test_split(X[i], Y[i], Z[i], test_size=0.1)
     len_train = np.array(_trainX).shape[0]
     len_test = np.array(_testX).shape[0]
     for j in range(0, len_train):
-        trainX[i].append(_trainX[j])
-        trainY[i].append(_trainY[j])
-        trainZ[i].append(_trainZ[j])
+        if j == 4 or j==12 or j==17 or j==18:
+            trainX[i].append(make_double_half_arr(_trainX[j]))
+            trainY[i].append(make_double_half_arr(_trainY[j]))
+            trainZ[i].append(make_double_half_arr(_trainZ[j]))
+        else:
+            trainX[i].append(make_half_arr(_trainX[j]))
+            trainY[i].append(make_half_arr(_trainY[j]))
+            trainZ[i].append(make_half_arr(_trainZ[j]))
     for j in range(0, len_test):
-        testX.append(_testX[j])
-        testY.append(_testY[j])
-        testZ.append(_testZ[j])
+        testX.append(make_half_arr(_testX[j]))
+        testY.append(make_half_arr(_testY[j]))
+        testZ.append(make_half_arr(_testZ[j]))
         testA.append(get_char(i))
 
 test_X = testX
@@ -93,12 +113,11 @@ col_count = np.array(testA).shape[0]
 
 print("end test")
 
-
 def dtw(X, Y, Z, tX, tY, tZ):
     dist_x, path_x = fastdtw(X, tX)
-    dist_y, path_y = fastdtw(Y, tY)
+    #dist_y, path_y = fastdtw(Y, tY)
     dist_z, path_z = fastdtw(Z, tZ)
-    dist = dist_x + dist_y + dist_z
+    dist = (dist_x * dist_x) + (dist_z * dist_z)
     return dist
 
 def fdsa(test_index):
@@ -146,7 +165,8 @@ def fdsa(test_index):
 
 
 c = 0
-for i in range(0, 130):
+test_len = 200
+for i in range(0, test_len):
     dd, value = fdsa(i)
     ss = testA[i][0]
     val = get_char(dd)
@@ -154,9 +174,10 @@ for i in range(0, 130):
     if ss == val:
         c += 1
 
-acc = (c / 130) * 100
+acc = (c / test_len) * 100
 print("Acc : " + str(acc) + " %")
 
+print("time : " + str(time.time() - start_time))
 
 
 
@@ -170,9 +191,9 @@ def make(save_name, tag, X, Y, Z):
         for j in range(0, col_count):
             if i != j:
                 dist_x, path_x = fastdtw(X[i], X[j])
-                dist_y, path_y = fastdtw(Y[i], Y[j])
+                #dist_y, path_y = fastdtw(Y[i], Y[j])
                 dist_z, path_z = fastdtw(Z[i], Z[j])
-                dist = dist_x + dist_y + dist_z
+                dist = (dist_x * dist_x) + (dist_z * dist_z)
                 sum = dist * dist
         score[i] = sum
         print(tag + "\tsum : " + str(score[i]))
@@ -200,6 +221,7 @@ def make(save_name, tag, X, Y, Z):
             ws_z.write(i, j, Z[min_index][j])
 
     workbook.save(save_name)
+
 
 
 
